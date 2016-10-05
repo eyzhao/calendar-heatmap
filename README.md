@@ -58,22 +58,22 @@ var chartData = [{
   count: Number
 }];
 var chart1 = calendarHeatmap()
-              .data(chartData)
-              .dateRange(d3.time.days(new Date(2016, 0, 1), new Date(2017, 0, 1))
-              .selector('#chart-one')
-              .colorRange(['#D8E6E7', '#218380'])
-              .tooltipEnabled(true)
-              .onClick(function (data) {
-                console.log('onClick callback. Data:', data);
-              })
-              .onMouseOver(function(data) {
-                // you can access the element via this
-                console.log('onMouseOver callback. Data:', data);
-              })
-              .onMouseOut(function(data) {
-                // you can access the element via this
-                console.log('onMouseOut callback. Data:', data);
-              });
+  .data(chartData)
+  .dateRange(d3.time.days(new Date(2016, 0, 1), new Date(2017, 0, 1)))
+  .selector('#chart-one')
+  .colorRange(['#D8E6E7', '#218380'])
+  .tooltipEnabled(true)
+  .onClick(function (data) {
+    console.log('onClick callback. Data:', data);
+  })
+  .onMouseOver(function(data) {
+    // you can access the element via this
+    console.log('onMouseOver callback. Data:', data);
+  })
+  .onMouseOut(function(data) {
+    // you can access the element via this
+    console.log('onMouseOut callback. Data:', data);
+  });
 chart1();  // render the chart
 ```
 
