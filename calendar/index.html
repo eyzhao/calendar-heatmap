@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3.js Calendar Heatmap</title>
+    <link rel="stylesheet" type="text/css" href="../src/calendar-heatmap.css">
+  </head>
+  <body>
+    <div class="container"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="../src/calendar-heatmap.js"></script>
+    <script src="../src/js-yaml.min.js"></script>
+    <script type="text/javascript">
+      function plot_calendar(result) {
+          console.log('start')
+          var data = jsyaml.load(result)
+          console.log(data)
+          var now = new Date(2022, 01, 01);
+          var yearAgo = moment().startOf('day').subtract(1, 'year').toDate();
+          var chartData = d3.time.days(yearAgo, now).map(function (dateElement) {
+              var labels = [];
+              var color_tile = false;
+              for (i=0; i < data.length; i++) {
+                  var startDiff = (dateElement - data[i]['start']) / 1000 / 3600 / 24
+                  var endDiff = (dateElement - data[i]['end']) / 1000 / 3600 / 24
+                  if (startDiff > 0 && endDiff < 1) {
+                      labels.push(data[i]['label']);
+                      if (data[i]['color']) {color_tile = true};
+                      var block = data[i]['block'] ? data[i]['block'] : -1;
+                      if (data[i]['block']) {block = data[i]['block']}
+                  }
+              }
+              if (labels.length != 0) {
+                  console.log(dateElement)
+                  console.log(labels)
+                  console.log(color_tile)
+              }
+            return {
+              date: dateElement,
+              labels: labels.join('<br/>'),
+              color: color_tile,
+              block: block
+            };
+          });
+
+          var heatmap = calendarHeatmap()
+                          .data(chartData)
+                          .selector('.container')
+                          .tooltipEnabled(true)
+                          .colorRange(['#f4f7f7', '#79a8a9'])
+                          .onClick(function (data) {
+                              console.log(chartData)
+                            console.log('data', data);
+                          });
+          heatmap();  // render the chart
+      }
+    </script>
+    <script>
+        data_string = $.ajax({
+            url: "data.yml",
+            success: plot_calendar 
+        });
+    </script>
+
+
+  </body>
+</html>

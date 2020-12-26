@@ -1,0 +1,55 @@
+- start: 2021-01-23
+  end: 2021-01-25
+  label: Weekend Off (Academic Day)
+  color: true
+- start: 2021-02-26
+  end: 2021-03-01
+  label: Visit to Red Deer?
+  color: true
+- start: 2021-04-09
+  end: 2021-04-14
+  label: "Can we get away during foundation block for a trip?"
+  color: true
+- start: 2021-05-24
+  end: 2021-05-30
+  label: Vacation - Eric's Family Visit?
+  color: true
+- start: 2021-06-21
+  end: 2021-06-27
+  label: Vacation - Camping Trip?
+  color: true
+- start: 2021-01-01
+  end: 2021-01-10
+  block: 7
+  label: "Medical Oncology"
+  color: false
+- start: 2021-01-11
+  end: 2021-02-07
+  block: 8
+  label: "Medical Oncology"
+  color: false
+- start: 2021-02-08
+  end: 2021-03-07
+  block: 9
+  label: "Radiology"
+  color: false
+- start: 2021-03-08
+  end: 2021-04-04
+  block: 10
+  label: "Urgent Care"
+  color: false
+- start: 2021-04-05
+  end: 2021-05-02
+  block: 11
+  label: "Foundation Block"
+  color: false
+- start: 2021-05-03
+  end: 2021-05-30
+  block: 12
+  label: "Surgical Oncology"
+  color: false
+- start: 2021-05-31
+  end: 2021-06-30
+  block: 13
+  label: "Head & Neck Surgical Oncology"
+  color: false

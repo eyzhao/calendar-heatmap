@@ -1,18 +1,20 @@
 
 function calendarHeatmap() {
   // defaults
-  var width = 750;
-  var height = 110;
-  var legendWidth = 125;
+  var width = 1500;
+  var height = 220;
+  var legendWidth = 250;
   var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   // var days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   var selector = 'body';
-  var SQUARE_LENGTH = 13;
-  var SQUARE_PADDING = 1;
+  var SQUARE_LENGTH = 20;
+  var SQUARE_PADDING = 4;
   var MONTH_LABEL_PADDING = 6;
-  var now = moment().endOf('day').toDate();
-  var yearAgo = moment().startOf('day').subtract(1, 'year').toDate();
+  //var now = moment().endOf('day').toDate();
+  var now = new Date(2021, 12, 01);
+  //var yearAgo = moment().startOf('day').subtract(1, 'year').toDate();
+  var yearAgo = new Date(2020, 12, 01);
   var data = [];
   var colorRange = ['#bcd9d8', '#218380'];
   var tooltipEnabled = true;
@@ -25,6 +27,8 @@ function calendarHeatmap() {
 
   var blankColor = '#fbfcfc';
   var zeroColor = '#fbfcfc';
+  var oddBlockColor = '#fbecec';
+  var evenBlockColor = '#ebecfc';
   var futureColor = '#f1f2f3';
 
   // setters and getters
@@ -117,7 +121,7 @@ function calendarHeatmap() {
 
     var monthRange = d3.time.months(moment(dateRange[0]).startOf('month').toDate(), dateRange[dateRange.length - 1]); // it ignores the first month if the 1st date is after the start of the month
     var firstDate = moment(dateRange[0]);
-    var max = d3.max(chart.data(), function (d) { return d.count; }); // max data value
+    var max = d3.max(chart.data(), function (d) { return d.labels; }); // max data value
     // handle exception when data is empty
     if(!max) {
       max = 10;
@@ -139,6 +143,7 @@ function calendarHeatmap() {
         .attr('width', width)
         .attr('class', 'calendar-heatmap')
         .attr('height', height)
+        .attr('viewBox', '-10 -10 ' + (width + 10) + ' ' + (height + 10))
         .style('padding', '18px 36px');
 
       dayRects = svg.selectAll('.day-cell')
@@ -232,7 +237,7 @@ function calendarHeatmap() {
         return daysOfChart.indexOf(d.toDateString()) > -1;
         })
         .attr('fill', function(d, i) {
-          return chart.data()[i].count ? color(chart.data()[i].count) : zeroColor;
+          return chart.data()[i].color ? color(50) : (! chart.data()[i].block ? zeroColor : (chart.data()[i].block % 2 == 1 ? oddBlockColor : evenBlockColor));
         });
 
       dayRects.exit().remove();
@@ -280,8 +285,7 @@ function calendarHeatmap() {
     function tooltipHTMLForDate(d) {
       var dateStr = moment(d).format('ddd, MMM Do YYYY');
       var data = dataForDate(d);
-      var count = data.count;
-      return '<span><strong>' + (count ? count : 'No') + tooltipUnit + (count === 1 ? '' : 's') + '</strong> on ' + dateStr + '</span>';
+      return '<span><strong>' + data.labels + '</strong><br/>on ' + dateStr + '</span>';
     }
 
     function dataForDate(d) {
@@ -293,7 +297,7 @@ function calendarHeatmap() {
       }
       return {
         date: d,
-        count: 0
+        labels: ''
       };
     }
 
