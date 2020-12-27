@@ -12,6 +12,12 @@
     <script src="src/calendar-heatmap.js"></script>
     <script src="src/js-yaml.min.js"></script>
     <script type="text/javascript">
+      function tooltipHTMLForDate(d) {
+          var dateStr = moment(d).format('ddd, MMM Do YYYY');
+          var data = dataForDate(d);
+          return '<span><strong>' + data.labels + '</strong><br/>on ' + dateStr + '</span>';
+      }
+
       function plot_calendar(result) {
           console.log('start')
           var data = jsyaml.load(result)
@@ -50,7 +56,6 @@
                           .tooltipEnabled(true)
                           .colorRange(['#f4f7f7', '#79a8a9'])
                           .onClick(function (data) {
-                              console.log(chartData)
                             console.log('data', data);
                           });
           heatmap();  // render the chart
